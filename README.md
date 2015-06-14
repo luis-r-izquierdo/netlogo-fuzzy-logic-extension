@@ -10,7 +10,7 @@ This folder contains:
 
 + documentation.pdf: a document explaining in detail how to use each of the functions implemented in the extension.
 
-+ cheat-sheet.pdf: a cheat sheet with all the functions implemented in the extensión.
++ cheat-sheet.pdf: a cheat sheet with all the functions implemented in the extension.
 
 + tutorial.pdf: a tutorial created to illustrate how researchers can use the extension to build agent-based models in which individual agents hold their own fuzzy concepts and use their own fuzzy rules, which may also change over time.
 
