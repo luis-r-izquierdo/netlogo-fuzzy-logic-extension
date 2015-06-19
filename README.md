@@ -1,5 +1,6 @@
 # netlogo-fuzzy-logic-extension
 NetLogo extension that facilitates the use of fuzzy logic within NetLogo
+
 Copyright (C) 2015 Luis R. Izquierdo & Marcos Almendres
 
 This folder contains:
