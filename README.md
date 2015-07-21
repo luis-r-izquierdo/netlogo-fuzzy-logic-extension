@@ -3,6 +3,7 @@ NetLogo extension that facilitates the use of fuzzy logic within NetLogo
 
 Copyright (C) 2015 Luis R. Izquierdo & Marcos Almendres
 
+## Contents
 This folder contains:
 
 + subfolder fuzzy, which contains
@@ -20,4 +21,12 @@ This folder contains:
 
 + fuzzy-system-of-IF-THEN-rules.nlogo: a Netlogo program created to illustrate the so-called "Interpolation Method" for systems of fuzzy IF-THEN rules, including defuzzification. A particular instance of this method is Mamdani inference (also called max-min inference), which is often used in fuzzy control. Another particular instance is max-prod inference. You can find a detailed explanation of how this program works in the "Info" tab of the program.
 
+## Versions
++ Version 1.0.1 (current)
+  - Fixed bug: fuzzy:sum did not add more than two sets
+
++ Version 1.0
+  - First official release.
+
+## More on Fuzzy Logic
 For further details, have a look at the paper: Izquierdo, L.R., Olaru, D., Izquierdo, S.S., Purchase, S. & Soutar, G.N. (2015). Fuzzy Logic for Social Simulation using NetLogo. Journal or Artificial Societies and Social Simulation.
