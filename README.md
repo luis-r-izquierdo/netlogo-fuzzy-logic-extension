@@ -29,4 +29,4 @@ This folder contains:
   - First official release.
 
 ## More on Fuzzy Logic
-For further details, have a look at the paper: Izquierdo, L.R., Olaru, D., Izquierdo, S.S., Purchase, S. & Soutar, G.N. (2015). Fuzzy Logic for Social Simulation using NetLogo. Journal or Artificial Societies and Social Simulation.
+For further details, have a look at the paper: Izquierdo, L.R., Olaru, D., Izquierdo, S.S., Purchase, S. & Soutar, G.N. (2015). Fuzzy Logic for Social Simulation using NetLogo. Journal or Artificial Societies and Social Simulation 18 (4) 1 <[http://jasss.soc.surrey.ac.uk/18/4/1.html](http://jasss.soc.surrey.ac.uk/18/4/1.html "Introductory paper on Fuzzy Logic for Social Simulation")>. doi: 10.18564/jasss.2885
