@@ -2,12 +2,12 @@
 ;;; GNU GENERAL PUBLIC LICENSE ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; fuzzy-system-of-IF-THEN-rules 
-;; fuzzy-system-of-IF-THEN-rules is a model designed to show how to implement 
+;; fuzzy-system-of-IF-THEN-rules
+;; fuzzy-system-of-IF-THEN-rules is a model designed to show how to implement
 ;; a system of fuzzy IF-THEN rules in NetLogo.
 ;;
 ;; Copyright (C) 2015 Luis R. Izquierdo, Segismundo S. Izquierdo & Doina Olaru
-;; 
+;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -22,11 +22,11 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;; Contact information:
-;; Luis R. Izquierdo 
-;;   University of Burgos, Spain. 
+;; Luis R. Izquierdo
+;;   University of Burgos, Spain.
 ;;   e-mail: luis@izquierdo.name
 
-extensions [fuzzy] 
+extensions [fuzzy]
 
 ;;;;;;;;;;;;;;;;;
 ;;; Variables ;;;
@@ -36,23 +36,23 @@ globals [
   inexpensive
   expensive
   averagely-priced
-  
+
   close-to-work
   far-from-work
   about-50k-from-work
-  
+
   good-suitability
   low-suitability
   regular-suitability
-  
+
   degree-of-consistency-R1
   degree-of-consistency-R2
   degree-of-consistency-R3
-  
+
   reshaped-consequent-R1
   reshaped-consequent-R2
   reshaped-consequent-R3
-  
+
   suitability-fuzzy-set
   suitability
 ]
@@ -70,14 +70,14 @@ end
 
 
 to create-fuzzy-sets
-  set inexpensive         fuzzy:piecewise-linear-set [[0 1] [200 0]]  
+  set inexpensive         fuzzy:piecewise-linear-set [[0 1] [200 0]]
   set expensive           fuzzy:piecewise-linear-set [[0 0] [200 1]]
   set averagely-priced    fuzzy:piecewise-linear-set [[0 0] [100 1] [200 0]]
-  
+
   set close-to-work       fuzzy:gaussian-set [0   30 [0 100]]
   set far-from-work       fuzzy:gaussian-set [100 30 [0 100]]
   set about-50k-from-work fuzzy:gaussian-set [50  10 [0 100]]
-  
+
   set good-suitability    fuzzy:gaussian-set [10 2 [0 10]]
   set low-suitability     fuzzy:gaussian-set [0  2 [0 10]]
   set regular-suitability fuzzy:gaussian-set [5  2 [0 10]]
@@ -88,19 +88,19 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 to compute-suitability
-  
+
   ;; COMPUTATION OF DEGREES OF CONSISTENCY BETWEEN FACTS (INPUTS) AND ANTECEDENTS FOR EACH RULE
-  
+
   ;; Rule 1: IF (House is Inexpensive OR Close-to-work)...
   let degree-of-consistency-R1a fuzzy:evaluation-of inexpensive price
   let degree-of-consistency-R1b fuzzy:evaluation-of close-to-work dist
   set degree-of-consistency-R1 (runresult (word type-of-or " list degree-of-consistency-R1a degree-of-consistency-R1b"))
- 
+
   ;; Rule 2: IF (House is Expensive OR Far-from-work)...
   let degree-of-consistency-R2a fuzzy:evaluation-of expensive price
   let degree-of-consistency-R2b fuzzy:evaluation-of far-from-work dist
   set degree-of-consistency-R2 (runresult (word type-of-or " list degree-of-consistency-R2a degree-of-consistency-R2b"))
-  
+
   ;; Rule 3: IF (House is Averagely-priced AND About-50-km-from-work)...
   let degree-of-consistency-R3a fuzzy:evaluation-of averagely-priced price
   let degree-of-consistency-R3b fuzzy:evaluation-of about-50k-from-work dist
@@ -108,24 +108,24 @@ to compute-suitability
 
 
   ;; COMPUTATION OF RESHAPED CONSEQUENTS FOR EACH RULE
-  
+
   ;; Rule 1: ... THEN Suitability is Good.
-  set reshaped-consequent-R1 (runresult (word "fuzzy:" reshaping-method " good-suitability degree-of-consistency-R1"))   
-  
+  set reshaped-consequent-R1 (runresult (word "fuzzy:" reshaping-method " good-suitability degree-of-consistency-R1"))
+
   ;; Rule 2: ... THEN Suitability is Low.
-  set reshaped-consequent-R2 (runresult (word "fuzzy:" reshaping-method " low-suitability degree-of-consistency-R2"))  
-  
+  set reshaped-consequent-R2 (runresult (word "fuzzy:" reshaping-method " low-suitability degree-of-consistency-R2"))
+
   ;; Rule 3: ... THEN Suitability is Regular.
-  set reshaped-consequent-R3 (runresult (word "fuzzy:" reshaping-method " regular-suitability degree-of-consistency-R3"))  
-  
-  
+  set reshaped-consequent-R3 (runresult (word "fuzzy:" reshaping-method " regular-suitability degree-of-consistency-R3"))
+
+
   ;; AGGREGATION OF ALL THE RESHAPED CONSEQUENTS
-  set suitability-fuzzy-set (runresult (word "fuzzy:" type-of-aggregation " (list reshaped-consequent-R1 reshaped-consequent-R2 reshaped-consequent-R3)"))   
+  set suitability-fuzzy-set (runresult (word "fuzzy:" type-of-aggregation " (list reshaped-consequent-R1 reshaped-consequent-R2 reshaped-consequent-R3)"))
 
 
   ;; DEFUZZIFICATION OF THE AGGREGATED FUZZY SET
-  set suitability (runresult (word "fuzzy:" type-of-defuzzification "-of suitability-fuzzy-set")) 
-  
+  set suitability (runresult (word "fuzzy:" type-of-defuzzification "-of suitability-fuzzy-set"))
+
 end
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -134,42 +134,42 @@ end
 
 to do-plots
   clear-all-plots
-  
-  set-current-plot "Inexpensive"         
+
+  set-current-plot "Inexpensive"
   draw inexpensive price 200
 
-  set-current-plot "Expensive"           
+  set-current-plot "Expensive"
   draw expensive price 200
-  
+
   set-current-plot "Averagely-priced"
   draw averagely-priced price 200
-  
-  set-current-plot "Close-to-work"       
+
+  set-current-plot "Close-to-work"
   draw close-to-work dist 100
-  
-  set-current-plot "Far-from-work"       
+
+  set-current-plot "Far-from-work"
   draw far-from-work dist 100
-  
-  set-current-plot "About-50k-from-work" 
+
+  set-current-plot "About-50k-from-work"
   draw about-50k-from-work dist 100
-  
-  set-current-plot "Good suitability"    
+
+  set-current-plot "Good suitability"
     fuzzy:plot good-suitability
-    set-current-plot-pen "green" 
+    set-current-plot-pen "green"
     fuzzy:plot reshaped-consequent-R1
-    
-  set-current-plot "Low suitability"     
+
+  set-current-plot "Low suitability"
     fuzzy:plot low-suitability
-    set-current-plot-pen "green" 
+    set-current-plot-pen "green"
     fuzzy:plot reshaped-consequent-R2
-    
-  set-current-plot "Regular suitability" 
+
+  set-current-plot "Regular suitability"
     fuzzy:plot regular-suitability
-    set-current-plot-pen "green" 
+    set-current-plot-pen "green"
     fuzzy:plot reshaped-consequent-R3
-  
+
   set-current-plot "Aggregated Suitability" fuzzy:plot suitability-fuzzy-set
-  
+
 end
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -185,22 +185,22 @@ to-report product [l]
 end
 
 to draw [fuzzy-set v1 v2]
-  fuzzy:plot fuzzy-set  
-  plot-pen-up 
-  plotxy v1 0 
-  plot-pen-down 
+  fuzzy:plot fuzzy-set
+  plot-pen-up
+  plotxy v1 0
+  plot-pen-down
   plotxy v1 (fuzzy:evaluation-of fuzzy-set v1)
-  plotxy v2 (fuzzy:evaluation-of fuzzy-set v1) 
+  plotxy v2 (fuzzy:evaluation-of fuzzy-set v1)
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 46
 10
 291
-92
+96
 -1
 -1
-25.7
+27.5
 1
 1
 1
@@ -259,12 +259,12 @@ MONITOR
 516
 556
 595
-617
+605
 NIL
 suitability
 5
 1
-15
+12
 
 SLIDER
 58
@@ -694,7 +694,7 @@ degree-of-consistency-R3
 @#$#@#$#@
 ## WHAT IS IT?
 
-This program illustrates the so-called "Interpolation Method" for systems of fuzzy IF-THEN rules (Klir & Yuan, 1995, section 11.4, pp. 317-321), including fuzzification and defuzzification (Klir & Yuan, 1995, chapter 12). A particular instance of this method is Mamdani inference (also called max-min inference), which is often used in fuzzy control. Another particular instance is max-prod inference. 
+This program illustrates the so-called "Interpolation Method" for systems of fuzzy IF-THEN rules (Klir & Yuan, 1995, section 11.4, pp. 317-321), including fuzzification and defuzzification (Klir & Yuan, 1995, chapter 12). A particular instance of this method is Mamdani inference (also called max-min inference), which is often used in fuzzy control. Another particular instance is max-prod inference.
 
 You can find a detailed explanation of this method in Izquierdo et al. (2015).
 
@@ -708,15 +708,15 @@ To understand how the program works, suppose you are searching for a house of ce
 
 The suitability is calculated using the so-called "Interpolation Method" (Klir & Yuan, 1995, section 11.4, pp. 317-321) and defuzzifying the resulting fuzzy set (Klir & Yuan, 1995, chapter 12). The method consists of the following 4 steps:
 
-1.- Calculate the degree of consistency between the inputs and the antecedent of each IF-THEN rule. The program lets you choose different functions for the logical operators (AND, OR). As an example, consider the first rule at the top row, with antecedent "Inexpensive OR Close-to-work". The computation for crisp inputs price = 110 and distance = 57, using the function Maximum (max) as logical OR, would be: 
+1.- Calculate the degree of consistency between the inputs and the antecedent of each IF-THEN rule. The program lets you choose different functions for the logical operators (AND, OR). As an example, consider the first rule at the top row, with antecedent "Inexpensive OR Close-to-work". The computation for crisp inputs price = 110 and distance = 57, using the function Maximum (max) as logical OR, would be:
 
 OR(Inexpensive(110), Close-to-work(57)) = OR(0.45,0.16) = max(0.45,0.16) = 0.45
 
 The result of this step is a number for each rule (i.e. the degree of consistency between the inputs and each rule's antecedent).
 
-2.- Reshape the consequent of each rule given the degree of consistency between the inputs and the rule's antecedent. Possible operators for the reshaping method are truncate (by default) and product (prod). Consider, for example, the rule at the top. The computation would be: 
+2.- Reshape the consequent of each rule given the degree of consistency between the inputs and the rule's antecedent. Possible operators for the reshaping method are truncate (by default) and product (prod). Consider, for example, the rule at the top. The computation would be:
 
-Reshape("Good suitability", 0.45) = truncate("Good suitability", 0.45). 
+Reshape("Good suitability", 0.45) = truncate("Good suitability", 0.45).
 
 The result of this step is a fuzzy set for each rule.
 
@@ -736,7 +736,7 @@ This program uses the <b>fuzzy extension</b> for NetLogo, created by Luis R. Izq
 
 ## LICENCE
 
-fuzzy-system-of-IF-THEN-rules 
+fuzzy-system-of-IF-THEN-rules
 
 fuzzy-system-of-IF-THEN-rules is a model designed to show how to implement a system of fuzzy IF-THEN rules in NetLogo.
 
@@ -749,13 +749,13 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Contact information:
-Luis R. Izquierdo 
-  University of Burgos, Spain. 
+Luis R. Izquierdo
+  University of Burgos, Spain.
   e-mail: luis@izquierdo.name
 
 ## CREDITS
 
-This program uses the <b>fuzzy extension</b> for NetLogo, created by Luis R. Izquierdo & Marcos Almendres. 
+This program uses the <b>fuzzy extension</b> for NetLogo, created by Luis R. Izquierdo & Marcos Almendres.
 
 ## REFERENCES
 
@@ -1069,7 +1069,7 @@ Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 
 @#$#@#$#@
-NetLogo 5.2.0
+NetLogo 5.3.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
