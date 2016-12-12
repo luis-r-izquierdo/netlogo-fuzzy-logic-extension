@@ -24,7 +24,7 @@
 ;; Contact information:
 ;; Luis R. Izquierdo
 ;;   University of Burgos, Spain.
-;;   e-mail: luis@izquierdo.name
+;;   e-mail: lrizquierdo@ubu.es
 
 extensions [fuzzy]
 
@@ -751,7 +751,7 @@ You should have received a copy of the GNU General Public License along with thi
 Contact information:
 Luis R. Izquierdo
   University of Burgos, Spain.
-  e-mail: luis@izquierdo.name
+  e-mail: lrizquierdo@ubu.es
 
 ## CREDITS
 
