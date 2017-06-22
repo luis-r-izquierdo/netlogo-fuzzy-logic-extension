@@ -8,12 +8,12 @@ import java.util.Map;
 
 import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
-import org.nlogo.api.I18N;
+//import org.nlogo.api.I18N;
 import org.nlogo.api.LogoList;
 
 
-import org.nlogo.nvm.ExtensionContext;
-import org.nlogo.window.GUIWorkspace;
+//import org.nlogo.nvm.ExtensionContext;
+//import org.nlogo.window.GUIWorkspace;
 
 import tfg.fuzzy.sets.general.FuzzySet;
 
@@ -285,22 +285,27 @@ public class SupportFunctions {
 	 */
 	public static void addToRegistry(FuzzySet f, String name, Context c)
 			throws ExtensionException {
-		GUIWorkspace gw = (GUIWorkspace) ((ExtensionContext) c).workspace();
-		String text = "The label: "
+		
+		
+		Map<String, FuzzySet> registry = FuzzyLogic.getRegistry();
+		// If the label is already registered just override it.
+		if (registry.containsKey(name)) {
+			/*
+			 * GUIWorkspace gw = (GUIWorkspace) ((ExtensionContext) c).workspace();
+			 * String text = "The label: "
 				+ name
 				+ " had been previously assigned to an existing fuzzy set. The label "
-				+ name + " is now assigned to the newly created fuzzy set";
-		Map<String, FuzzySet> registry = FuzzyLogic.getRegistry();
-		// If the label is already registered just overide it.
-		if (registry.containsKey(name)) {
-			registry.remove(name);
-			registry.put(name, f);
-			org.nlogo.swing.OptionDialog.show(gw.getFrame(), "warning", text,
+				+ name + " is now assigned to another fuzzy set";
+			 * 	registry.remove(name);
+			 * 	registry.put(name, f);
+			 *  org.nlogo.swing.OptionDialog.show(gw.getFrame(), "warning", text,
 					new String[] { I18N.gui().get("common.buttons.ok") });
+			 */
+			throw new ExtensionException("You cannot assign the same label (" + name + ") to two different fuzzy sets.");
 		// If the fuzzy set is already registered throw an exception
 		} else if (registry.containsValue(f)) {
 			throw new ExtensionException(
-					"You cannot assign the same fuzzy set to two labels.");
+					"You cannot assign two labels to the same fuzzy set.");
 		} else {
 			registry.put(name, f);
 		}
