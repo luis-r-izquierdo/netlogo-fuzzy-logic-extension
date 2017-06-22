@@ -22,7 +22,11 @@ This folder contains:
 + fuzzy-system-of-IF-THEN-rules.nlogo: a Netlogo program created to illustrate the so-called "Interpolation Method" for systems of fuzzy IF-THEN rules, including defuzzification. A particular instance of this method is Mamdani inference (also called max-min inference), which is often used in fuzzy control. Another particular instance is max-prod inference. You can find a detailed explanation of how this program works in the "Info" tab of the program.
 
 ## Versions
-+ Version 1.0.1 (current)
+
++ Version 1.0.2 (current)
+  - This release fixes two minor bugs (#2 and #3), and it is the last release given for NetLogo 5.3.1
+  
++ Version 1.0.1
   - Fixed bug: fuzzy:sum did not add more than two sets
 
 + Version 1.0
