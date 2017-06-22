@@ -126,6 +126,11 @@ public class FuzzyPlot extends DefaultCommand{
 		double[] universe = f.getUniverse();
 		//Take the current pen
 		PlotPen pp = p.currentPen().get();
+		//Make sure it is in mode 2
+		if(pp.mode() != 2){
+			pp.mode_$eq(2);
+		}
+		/*
 		//Create, configure and add a new Pen if its not in mode 2
 		if(pp.mode() != 2){
 			int color = p.currentPen().get().color();
@@ -133,6 +138,7 @@ public class FuzzyPlot extends DefaultCommand{
 			pp.color_$eq(color);
 			pp.mode_$eq(2);
 		}
+		*/
 		//Steps to iterate
 		double steps = Math.floor(1 + ((universe[1] - universe[0]) * SupportFunctions.getResolution()));
 		double x = universe[0];
