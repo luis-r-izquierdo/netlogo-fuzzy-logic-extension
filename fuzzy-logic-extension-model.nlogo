@@ -2,12 +2,12 @@
 ;;; GNU GENERAL PUBLIC LICENSE ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; fuzzy-logic-extension-model 
-;; fuzzy-logic-extension-model is a model designed to show how to implement 
+;; fuzzy-logic-extension-model
+;; fuzzy-logic-extension-model is a model designed to show how to implement
 ;; a system of fuzzy IF-THEN rules in NetLogo. Version 1.1
 ;;
 ;; Copyright (C) 2014 Doina Olaru & Luis R. Izquierdo
-;; 
+;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -22,11 +22,11 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;; Contact information:
-;; Luis R. Izquierdo 
-;;   University of Burgos, Spain. 
+;; Luis R. Izquierdo
+;;   University of Burgos, Spain.
 ;;   e-mail: lrizquierdo@ubu.es
 
-extensions [fuzzy] 
+extensions [fuzzy]
 
 ;;;;;;;;;;;;;;;;;
 ;;; Variables ;;;
@@ -34,27 +34,27 @@ extensions [fuzzy]
 
 globals [
   temperature
-  visitors          ;; agents who do the visit in the current period
-  recommended       ;; agents who have been recommended to do the visit 
+  visitors          ;; persons who do the visit in the current period
+  recommended       ;; persons who have been recommended to do the visit
   accumulated-#-of-visitors
   no-more-tours-at
 ]
 
-breed [agents agent]
+breed [persons person]
 
-agents-own [
-  
+persons-own [
+
   my-concept-of-nice
   my-concept-of-extreme
-  
+
   my-concept-of-expensive
   my-concept-of-inexpensive
-  
+
   my-concept-of-likely
   my-concept-of-unlikely
-  
+
   my-prob-of-recommending
-  
+
   selected?
   ticks-past-since-visit
 ]
@@ -66,53 +66,53 @@ agents-own [
 to startup
   clear-all
   fuzzy:set-resolution 8
-  setup-agents
+  setup-persons
   plot-templates
-  reset-ticks  
+  reset-ticks
 end
 
-to setup-agents
-  create-agents initial-num-of-visitors [
+to setup-persons
+  create-persons initial-num-of-visitors [
     set hidden? true
     set selected? true
     create-my-fuzzy-sets
   ]
-  set visitors agents
+  set visitors persons
 end
 
-to create-my-fuzzy-sets  
+to create-my-fuzzy-sets
 
   ;; TEMPERATURE
   set s-extreme clip>0 s-extreme
   set s-nice clip>0 s-nice
   set mu-nice clip [-10 50] mu-nice
-  
-  set my-concept-of-nice fuzzy:gaussian-set (list 
+
+  set my-concept-of-nice fuzzy:gaussian-set (list
     clip [-10 50] (mu-nice + noise variability)
     clip>0 (s-nice + noise variability)
     [-10 50])
-  
-  let my-concept-of-high fuzzy:gaussian-set (list 
+
+  let my-concept-of-high fuzzy:gaussian-set (list
     50 clip>0  (s-extreme + noise variability)
-    [-10 50]) 
-  let my-concept-of-low fuzzy:gaussian-set (list 
+    [-10 50])
+  let my-concept-of-low fuzzy:gaussian-set (list
     -10 clip>0 (s-extreme + noise variability)
-    [-10 50]) 
+    [-10 50])
   set my-concept-of-extreme fuzzy:or (list my-concept-of-high my-concept-of-low)
-  
+
   ;; PRICE
   set initial-expensive clip [0 10] initial-expensive
   set final-inexpensive clip [0 10] final-inexpensive
-  
-  set my-concept-of-expensive   fuzzy:piecewise-linear-set (list [0 0] (list clip [0 10] (initial-expensive + noise variability) 0) [10 1]) 
-  set my-concept-of-inexpensive fuzzy:piecewise-linear-set (list [0 1] (list clip [0 10] (final-inexpensive + noise variability) 0) [10 0]) 
-  
+
+  set my-concept-of-expensive   fuzzy:piecewise-linear-set (list [0 0] (list clip [0 10] (initial-expensive + noise variability) 0) [10 1])
+  set my-concept-of-inexpensive fuzzy:piecewise-linear-set (list [0 1] (list clip [0 10] (final-inexpensive + noise variability) 0) [10 0])
+
   ;; PROBABILITY
   set initial-likely clip [0 1] initial-likely
   set final-unlikely clip [0 1] final-unlikely
-  
-  set my-concept-of-likely   fuzzy:piecewise-linear-set (list [0 0] (list clip [0 1] (initial-likely + noise (variability / 10)) 0) [1 1]) 
-  set my-concept-of-unlikely fuzzy:piecewise-linear-set (list [0 1] (list clip [0 1] (final-unlikely + noise (variability / 10)) 0) [1 0]) 
+
+  set my-concept-of-likely   fuzzy:piecewise-linear-set (list [0 0] (list clip [0 1] (initial-likely + noise (variability / 10)) 0) [1 1])
+  set my-concept-of-unlikely fuzzy:piecewise-linear-set (list [0 1] (list clip [0 1] (final-unlikely + noise (variability / 10)) 0) [1 0])
 
 end
 
@@ -121,82 +121,82 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-    
+
   if not any? visitors [
-    user-message "There are no visitors" 
+    user-message "There are no visitors"
     set no-more-tours-at ticks
     stop
   ]
-  
+
   do-visit
-    
+
   ask visitors [ compute-probability ]
 
   do-plots
     ;; We plot here because the set of visitors will change later, and the plots are for visitors.
-  
-  ask (agents with [ticks-past-since-visit >= recommend-opportunities]) [die]
-    ;; agents who have no more opportunities to recommend leave the simulation.
-  
+
+  ask (persons with [ticks-past-since-visit >= recommend-opportunities]) [die]
+    ;; persons who have no more opportunities to recommend leave the simulation.
+
   set recommended no-turtles
-  ask agents [do-recommendation]
-  
+  ask persons [do-recommendation]
+
   set-visitors-for-next-period
 
-  ask agents [set ticks-past-since-visit (ticks-past-since-visit + 1)] 
-    ;; Note that even visitors (next-period) are adding 1 to ticks-past-since-visit, but this is not a problem, 
+  ask persons [set ticks-past-since-visit (ticks-past-since-visit + 1)]
+    ;; Note that even visitors (next-period) are adding 1 to ticks-past-since-visit, but this is not a problem,
     ;; since ticks-past-since-visit is set to 0 when they visit.
     ;; We could do this at the beginning of the procedure; it does not really matter.
-    
+
   tick
 end
 
 to do-visit
   set temperature clip [-10 50] random-normal 20 10
-  
+
   ask visitors [
-    set ticks-past-since-visit 0    
+    set ticks-past-since-visit 0
     set accumulated-#-of-visitors (accumulated-#-of-visitors + 1)
   ]
-  
+
 end
 
 to compute-probability
-  
+
   ;; COMPUTATION OF RESHAPED CONSEQUENTS FOR EACH RULE
   let R1 fuzzy:and-rule (list (list price my-concept-of-inexpensive) (list temperature my-concept-of-nice))    my-concept-of-likely
-  let R2 fuzzy:or-rule  (list (list price my-concept-of-expensive)   (list temperature my-concept-of-extreme)) my-concept-of-unlikely 
-  
+  let R2 fuzzy:or-rule  (list (list price my-concept-of-expensive)   (list temperature my-concept-of-extreme)) my-concept-of-unlikely
+
   let list-of-rules (list R1 R2)
-  
+
   ;; AGGREGATION OF ALL THE RESHAPED CONSEQUENTS
-  let my-prob-of-recommending-fuzzy-set (runresult (word "fuzzy:" type-of-aggregation " list-of-rules"))   
-  
+  let my-prob-of-recommending-fuzzy-set (runresult (word "fuzzy:" type-of-aggregation " list-of-rules"))
+
   ;; DEFUZZIFICATION OF THE AGGREGATED FUZZY SET
-  set my-prob-of-recommending (runresult (word "fuzzy:" type-of-defuzzification "-of my-prob-of-recommending-fuzzy-set")) 
-  
+  set my-prob-of-recommending (runresult (word "fuzzy:" type-of-defuzzification "-of my-prob-of-recommending-fuzzy-set"))
+
 end
 
 to do-recommendation
   if random-float 1.0 < my-prob-of-recommending [
-    hatch-agents 1 [
+    hatch-persons 1 [
       set selected? false
       set recommended (turtle-set recommended self)
-    ] 
+    ]
   ]
 end
 
 to set-visitors-for-next-period
   let n-of-recommended (count recommended)
   let n-of-visitors ifelse-value (n-of-recommended > group-size) [group-size] [n-of-recommended]
-  
+
   set visitors no-turtles
   ask n-of n-of-visitors recommended [
     set selected? true
     create-my-fuzzy-sets
     set visitors (turtle-set visitors self)
   ]
-  
+
   ask recommended with [not selected?] [die]
 end
 
@@ -205,29 +205,29 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 to do-plots
-  
+
   set-current-plot "Temperature"
   plotxy ticks temperature
-  
+
   set-current-plot "Visits"
   plotxy ticks count visitors
-  set-plot-y-range 0 group-size 
-  
+  set-plot-y-range 0 group-size
+
   set-current-plot "Likelihood of recommending"
-  
+
   if any? visitors [
     let probabilities [my-prob-of-recommending] of visitors
     set-current-plot-pen "min" plotxy ticks min probabilities
     set-current-plot-pen "avg" plotxy ticks mean probabilities
     set-current-plot-pen "max" plotxy ticks max probabilities
   ]
-  
+
 end
 
 to plot-concepts
-  
-  plot-templates  
-  
+
+  plot-templates
+
   set-current-plot "Concepts of nice and extreme temperature"
   clear-plot
   set-plot-x-range -10 50
@@ -243,7 +243,7 @@ to plot-concepts
   ask visitors [fuzzy:plot my-concept-of-expensive]
   set-plot-pen-color blue
   ask visitors [fuzzy:plot my-concept-of-inexpensive]
-  
+
   set-current-plot "Concepts of likely and unlikely"
   clear-plot
   set-plot-x-range 0 1
@@ -254,50 +254,50 @@ to plot-concepts
 end
 
 to plot-templates
-  
+
   ;; TEMPERATURE
   set-current-plot "Template for concepts of temperature"
   clear-plot
   set-plot-x-range -10 50
-  
+
   let nice-template fuzzy:gaussian-set (list mu-nice s-nice [-10 50])
-  
-  let high-template fuzzy:gaussian-set (list 50 (clip>0 s-extreme) [-10 50]) 
-  let low-template fuzzy:gaussian-set (list -10 (clip>0 s-extreme) [-10 50]) 
+
+  let high-template fuzzy:gaussian-set (list 50 (clip>0 s-extreme) [-10 50])
+  let low-template fuzzy:gaussian-set (list -10 (clip>0 s-extreme) [-10 50])
   let extreme-template fuzzy:or (list high-template low-template)
-  
+
   set-plot-pen-color blue
   fuzzy:plot nice-template
-  
+
   set-plot-pen-color red
   fuzzy:plot extreme-template
-  
+
   ;; PRICE
   set-current-plot "Template for concepts of price"
   clear-plot
-  
+
   let expensive-template   fuzzy:piecewise-linear-set (list [0 0] (list initial-expensive 0) [10 1])
-  let inexpensive-template fuzzy:piecewise-linear-set (list [0 1] (list final-inexpensive 0) [10 0]) 
-  
+  let inexpensive-template fuzzy:piecewise-linear-set (list [0 1] (list final-inexpensive 0) [10 0])
+
   set-plot-pen-color blue
   fuzzy:plot inexpensive-template
-  
+
   set-plot-pen-color red
   fuzzy:plot expensive-template
-  
+
   ;; PROBABILITY
   set-current-plot "Template for concepts of likelihood"
   clear-plot
-  
+
   let likely-template   fuzzy:piecewise-linear-set (list [0 0] (list initial-likely 0) [1 1])
-  let unlikely-template fuzzy:piecewise-linear-set (list [0 1] (list final-unlikely 0) [1 0]) 
-  
+  let unlikely-template fuzzy:piecewise-linear-set (list [0 1] (list final-unlikely 0) [1 0])
+
   set-plot-pen-color blue
   fuzzy:plot likely-template
-  
+
   set-plot-pen-color red
   fuzzy:plot unlikely-template
-  
+
 end
 
 
@@ -319,16 +319,16 @@ end
 
 to-report clip>0 [v]
   if v <= 0 [set v 0.01]
-  report v 
+  report v
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 737
 15
-982
-200
-1
-1
+899
+178
+-1
+-1
 51.33333333333334
 1
 10
@@ -476,7 +476,7 @@ initial-num-of-visitors
 initial-num-of-visitors
 0
 group-size
-30
+30.0
 1
 1
 NIL
@@ -536,7 +536,7 @@ group-size
 group-size
 0
 100
-30
+30.0
 1
 1
 NIL
@@ -548,7 +548,7 @@ INPUTBOX
 285
 263
 mu-nice
-20
+20.0
 1
 0
 Number
@@ -559,7 +559,7 @@ INPUTBOX
 373
 263
 s-nice
-10
+10.0
 1
 0
 Number
@@ -570,7 +570,7 @@ INPUTBOX
 460
 263
 s-extreme
-10
+10.0
 1
 0
 Number
@@ -584,7 +584,7 @@ recommend-opportunities
 recommend-opportunities
 1
 10
-2
+3.0
 1
 1
 NIL
@@ -692,7 +692,7 @@ INPUTBOX
 590
 264
 initial-expensive
-2
+2.0
 1
 0
 Number
@@ -703,7 +703,7 @@ INPUTBOX
 718
 264
 final-inexpensive
-8
+8.0
 1
 0
 Number
@@ -775,7 +775,7 @@ price
 price
 0
 10
-5
+5.0
 0.1
 1
 NIL
@@ -790,7 +790,7 @@ variability
 variability
 0
 5
-3
+3.0
 0.1
 1
 NIL
@@ -1137,9 +1137,8 @@ false
 0
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
-
 @#$#@#$#@
-NetLogo 5.2.0
+NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
@@ -1155,7 +1154,6 @@ true
 0
 Line -7500403 true 150 150 90 180
 Line -7500403 true 150 150 210 180
-
 @#$#@#$#@
 0
 @#$#@#$#@

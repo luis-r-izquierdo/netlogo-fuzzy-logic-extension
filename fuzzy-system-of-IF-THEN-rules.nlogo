@@ -189,6 +189,7 @@ to draw [fuzzy-set v1 v2]
   plot-pen-up
   plotxy v1 0
   plot-pen-down
+  set-plot-pen-mode 0
   plotxy v1 (fuzzy:evaluation-of fuzzy-set v1)
   plotxy v2 (fuzzy:evaluation-of fuzzy-set v1)
 end
@@ -196,8 +197,8 @@ end
 GRAPHICS-WINDOW
 46
 10
-291
-96
+219
+74
 -1
 -1
 27.5
@@ -275,7 +276,7 @@ price
 price
 0
 200
-50
+81.0
 1
 1
 NIL
@@ -290,7 +291,7 @@ dist
 dist
 0
 100
-35
+37.0
 1
 1
 NIL
@@ -1067,9 +1068,8 @@ false
 0
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
-
 @#$#@#$#@
-NetLogo 5.3.1
+NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
@@ -1085,7 +1085,6 @@ true
 0
 Line -7500403 true 150 150 90 180
 Line -7500403 true 150 150 210 180
-
 @#$#@#$#@
 0
 @#$#@#$#@
