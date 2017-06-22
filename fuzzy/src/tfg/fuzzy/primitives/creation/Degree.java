@@ -2,10 +2,11 @@ package tfg.fuzzy.primitives.creation;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.DegreeOfFulfillment;
 import tfg.fuzzy.sets.general.FuzzySet;
@@ -18,14 +19,14 @@ import tfg.fuzzy.sets.points.PiecewiseLinearSet;
  * @author Marcos Almendres.
  *
  */
-public class Degree extends DefaultReporter {
+public class Degree implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives 2 wildcards and returns a number.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(
+		return SyntaxJ.reporterSyntax(
 				new int[] { Syntax.WildcardType(), Syntax.WildcardType() },
 				Syntax.NumberType());
 	}

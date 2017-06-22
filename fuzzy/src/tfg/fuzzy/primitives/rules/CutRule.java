@@ -2,10 +2,11 @@ package tfg.fuzzy.primitives.rules;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.primitives.implication.Cut;
 import tfg.fuzzy.sets.general.EmptySet;
@@ -17,14 +18,14 @@ import tfg.fuzzy.sets.general.FuzzySet;
  * @author Marcos Almendres.
  *
  */
-public class CutRule extends DefaultReporter {
+public class CutRule implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a list and a wildcard, returns a wildcard.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(
+		return SyntaxJ.reporterSyntax(
 				new int[] { Syntax.ListType(), Syntax.WildcardType() },
 				Syntax.WildcardType());
 	}

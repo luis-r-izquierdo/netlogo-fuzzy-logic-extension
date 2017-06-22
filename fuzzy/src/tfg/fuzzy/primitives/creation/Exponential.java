@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.LogoList;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.SupportFunctions;
 import tfg.fuzzy.sets.function.ExponentialSet;
@@ -21,14 +22,14 @@ import tfg.fuzzy.sets.function.ExponentialSet;
  * @author Marcos Almendres.
  *
  */
-public class Exponential extends DefaultReporter {
+public class Exponential implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a list and returns a Wildcard.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(new int[] { Syntax.ListType() },
+		return SyntaxJ.reporterSyntax(new int[] { Syntax.ListType() },
 				Syntax.WildcardType());
 	}
 

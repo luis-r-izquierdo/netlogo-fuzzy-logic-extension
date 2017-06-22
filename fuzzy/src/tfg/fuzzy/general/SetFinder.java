@@ -2,10 +2,11 @@ package tfg.fuzzy.general;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 /**
  * This class implements the fuzzy-set-with-label primitive.
@@ -13,14 +14,14 @@ import org.nlogo.api.Syntax;
  * @author Marcos Almendres.
  * 
  */
-public class SetFinder extends DefaultReporter {
+public class SetFinder implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a string and returns a Wildcard.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(new int[] { Syntax.StringType() },
+		return SyntaxJ.reporterSyntax(new int[] { Syntax.StringType() },
 				Syntax.WildcardType());
 	}
 

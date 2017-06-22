@@ -2,7 +2,7 @@ package tfg.fuzzy.sets.general;
 
 import java.util.List;
 
-import org.nlogo.api.ExtensionObject;
+import org.nlogo.core.ExtensionObject;
 
 /**
  * This class represents all fuzzy sets.

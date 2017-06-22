@@ -3,10 +3,11 @@ package tfg.fuzzy.primitives.creation;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultCommand;
+import org.nlogo.api.Command;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 import org.nlogo.nvm.ExtensionContext;
 import org.nlogo.plot.Plot;
 import org.nlogo.plot.PlotManager;
@@ -23,14 +24,14 @@ import tfg.fuzzy.sets.points.PiecewiseLinearSet;
  * @author Marcos Almendres.
  *
  */
-public class FuzzyPlot extends DefaultCommand{
+public class FuzzyPlot implements Command{
 	
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a wildcard and report nothing because it is a command.
 	 */
 	public Syntax getSyntax(){
-		return Syntax.commandSyntax(new int[]{Syntax.WildcardType()});
+		return SyntaxJ.commandSyntax(new int[]{Syntax.WildcardType()});
 	}
 
 	/**
@@ -78,15 +79,15 @@ public class FuzzyPlot extends DefaultCommand{
 //			maxRange = p.xMax();
 //		}
 		if(minRange == maxRange){
-			p.xMin_$eq(0);
-			p.xMax_$eq(2*minRange);
+			p.defaultXMin_$eq(0);
+			p.defaultXMax_$eq(2*minRange);
 		}else{
-			p.xMin_$eq(minRange);
-			p.xMax_$eq(maxRange);
+			p.defaultXMin_$eq(minRange);
+			p.defaultXMax_$eq(maxRange);
 		}
 		//set y range	
-		p.yMin_$eq(0);
-		p.yMax_$eq(1);
+		p.defaultYMin_$eq(0);
+		p.defaultYMax_$eq(1);
 	}
 	
 	/**

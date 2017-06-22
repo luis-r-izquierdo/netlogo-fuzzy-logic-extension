@@ -2,10 +2,11 @@ package tfg.fuzzy.primitives.creation;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultCommand;
+import org.nlogo.api.Command;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.SupportFunctions;
 import tfg.fuzzy.sets.general.FuzzySet;
@@ -15,14 +16,14 @@ import tfg.fuzzy.sets.general.FuzzySet;
  * @author Marcos Almendres.
  *
  */
-public class SetLabel extends DefaultCommand {
+public class SetLabel implements Command {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a wildcard and a string and report nothing because it is a command.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.commandSyntax(new int[] { Syntax.WildcardType(),
+		return SyntaxJ.commandSyntax(new int[] { Syntax.WildcardType(),
 				Syntax.StringType() });
 	}
 

@@ -1,11 +1,12 @@
 package tfg.fuzzy.primitives.rules;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
+import org.nlogo.core.LogoList;
 
 import tfg.fuzzy.sets.general.FuzzySet;
 
@@ -71,7 +72,9 @@ public class SupportRules {
 		List<Double> result = new ArrayList<Double>();
 		// List of lists inside where each list is a rule.
 		// Iterate over the rules
-		for (Object o : l) {
+		Iterator<Object> it = l.javaIterator();
+		while (it.hasNext()) {
+			Object o = it.next();
 			element = (LogoList) o;
 			// The second element of each rule must be a fuzzy set.
 			if (element.get(1) instanceof FuzzySet) {

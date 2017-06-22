@@ -2,10 +2,11 @@ package tfg.fuzzy.primitives.labeling;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultCommand;
+import org.nlogo.api.Command;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.FuzzyLogic;
 
@@ -15,14 +16,14 @@ import tfg.fuzzy.general.FuzzyLogic;
  * @author Marcos Almendres.
  *
  */
-public class Clear extends DefaultCommand {
+public class Clear implements Command {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
-	 * Receives nothing and report nothing because it is a command.
+	 * Receives nothing and reports nothing because it is a command.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.commandSyntax();
+		return SyntaxJ.commandSyntax();
 	}
 
 	/**

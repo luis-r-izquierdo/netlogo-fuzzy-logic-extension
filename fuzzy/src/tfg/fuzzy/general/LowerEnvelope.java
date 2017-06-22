@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoListBuilder;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.sets.general.PointSet;
 import tfg.fuzzy.sets.points.PiecewiseLinearSet;
@@ -19,14 +20,14 @@ import tfg.fuzzy.sets.points.PiecewiseLinearSet;
  * @author Marcos Almendres.
  * 
  */
-public class LowerEnvelope extends DefaultReporter {
+public class LowerEnvelope implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives 2 lists and returns another list.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(
+		return SyntaxJ.reporterSyntax(
 				new int[] { Syntax.ListType(), Syntax.ListType() },
 				Syntax.ListType());
 	}

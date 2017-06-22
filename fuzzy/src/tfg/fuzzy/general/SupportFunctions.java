@@ -3,13 +3,14 @@ package tfg.fuzzy.general;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
 //import org.nlogo.api.I18N;
-import org.nlogo.api.LogoList;
+import org.nlogo.core.LogoList;
 
 
 //import org.nlogo.nvm.ExtensionContext;
@@ -85,8 +86,10 @@ public class SupportFunctions {
 			throw new ExtensionException(
 					"The list is empty, please enter a valid list: [[a b] [c d] [e f]]");
 		}
-		// Iterate over the parametrs
-		for (Object o : params) {
+		// Iterate over the parameters
+		Iterator<Object> it = params.javaIterator();
+		while (it.hasNext()) {
+			Object o = it.next();
 			// Checks the elements are lists
 			if (!(o instanceof LogoList)) {
 				throw new ExtensionException(

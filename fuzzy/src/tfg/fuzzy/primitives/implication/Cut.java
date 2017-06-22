@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.DegreeOfFulfillment;
 import tfg.fuzzy.sets.derived.CutSet;
@@ -23,14 +24,14 @@ import tfg.fuzzy.sets.points.PiecewiseLinearSet;
  * @author Marcos Almendres.
  *
  */
-public class Cut extends DefaultReporter {
+public class Cut implements Reporter {
 
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a wildcard and a number, returns a wildcard.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(
+		return SyntaxJ.reporterSyntax(
 				new int[] { Syntax.WildcardType(), Syntax.NumberType() },
 				Syntax.WildcardType());
 	}

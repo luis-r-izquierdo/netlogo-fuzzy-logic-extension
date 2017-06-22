@@ -1,9 +1,10 @@
 package tfg.fuzzy.primitives.operators;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import org.nlogo.api.LogoList;
+import org.nlogo.core.LogoList;
 
 import tfg.fuzzy.general.DegreeOfFulfillment;
 import tfg.fuzzy.sets.general.FuzzySet;
@@ -58,7 +59,9 @@ public class SupportOperators {
 		int piecewise = 0;
 		int continuous = 0;
 		// Count the type of all the fuzzy sets inside the list
-		for (Object o : l) {
+		Iterator<Object> it = l.javaIterator();
+		while (it.hasNext()) {
+			Object o = it.next();
 			FuzzySet f = (FuzzySet) o;
 			if (f.isContinuous()) {
 				if (f instanceof PiecewiseLinearSet) {

@@ -1,21 +1,23 @@
 package tfg.fuzzy.general;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
+import org.nlogo.core.LogoList;
 import org.nlogo.api.LogoListBuilder;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
-public class PointChecker extends DefaultReporter{
+public class PointChecker implements Reporter{
 	
 	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[]{Syntax.ListType(),Syntax.ListType()},Syntax.ListType());
+		return SyntaxJ.reporterSyntax(new int[]{Syntax.ListType(),Syntax.ListType()},Syntax.ListType());
 	}
 
 	@Override
@@ -28,7 +30,9 @@ public class PointChecker extends DefaultReporter{
 		Double[] universe = new Double[]{(Double) uni.first(),(Double) uni.get(1)};
 		List<Double> numbersToEvaluate = new ArrayList<Double>();
 		//Iterate over the parameters and add to a list the first number(x) of each points
-		for(Object o : elementsD){
+		Iterator<Object> it = elementsD.javaIterator();
+		while (it.hasNext()) {
+			Object o = it.next();
 			point =(LogoList) o;
 			x = (Double) point.first();
 			double min = universe[0];

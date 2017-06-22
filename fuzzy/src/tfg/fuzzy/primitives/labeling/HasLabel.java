@@ -2,10 +2,11 @@ package tfg.fuzzy.primitives.labeling;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.Reporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.Syntax;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 import tfg.fuzzy.general.FuzzyLogic;
 import tfg.fuzzy.sets.general.FuzzySet;
@@ -15,14 +16,14 @@ import tfg.fuzzy.sets.general.FuzzySet;
  * @author Marcos Almendres.
  *
  */
-public class HasLabel extends DefaultReporter{
+public class HasLabel implements Reporter{
 	
 	/**
 	 * This method tells Netlogo the appropriate syntax of the primitive.
 	 * Receives a wildcard and report a boolean.
 	 */
 	public Syntax getSyntax() {
-		return Syntax.reporterSyntax(new int[] { Syntax.WildcardType() },
+		return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() },
 				Syntax.BooleanType());
 	}
 
